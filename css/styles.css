@@ -1,6 +1,5 @@
 /* ============================================
    Moving Company Quotation Form - styles.css
-   Styled like Jotform
    ============================================ */
 
 /* Reset & Base */
@@ -63,14 +62,6 @@ body {
   margin: 8px auto;
 }
 
-.logo-kr {
-  display: block;
-  font-size: 28px;
-  font-weight: 700;
-  color: #1A3D7C;
-  letter-spacing: 4px;
-}
-
 .logo-en {
   display: block;
   font-size: 16px;
@@ -95,20 +86,98 @@ body {
 }
 
 /* ============================================
+   Progress Bar
+   ============================================ */
+
+.progress-bar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 28px;
+  padding: 0 10px;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #E5E7EB;
+  color: #6B7280;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.3s, color 0.3s;
+}
+
+.progress-step.active .step-number,
+.progress-step.completed .step-number {
+  background: #1A3D7C;
+  color: white;
+}
+
+.step-label {
+  font-size: 12px;
+  color: #6B7280;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: color 0.3s;
+}
+
+.progress-step.active .step-label,
+.progress-step.completed .step-label {
+  color: #1A3D7C;
+  font-weight: 600;
+}
+
+.progress-connector {
+  flex: 1;
+  height: 2px;
+  background: #E5E7EB;
+  margin: 0 8px;
+  margin-top: 15px;
+  transition: background 0.3s;
+}
+
+.progress-connector.completed {
+  background: #1A3D7C;
+}
+
+/* ============================================
+   Required Legend
+   ============================================ */
+
+.required-legend {
+  font-size: 13px;
+  color: #6B7280;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+/* ============================================
    Sections
    ============================================ */
 
 .form-section {
-  margin-bottom: 28px;
+  margin-bottom: 40px;
 }
 
 .form-section h2 {
-  font-size: 16px;
+  font-size: 20px;
   color: #1A3D7C;
   font-weight: 600;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   padding-bottom: 8px;
-  border-bottom: 1px solid #E5E7EB;
+  border-bottom: 2px solid #1A3D7C;
 }
 
 /* ============================================
@@ -135,7 +204,7 @@ label {
 }
 
 .required {
-  color: #E8A627;
+  color: #C53030;
   margin-left: 2px;
   font-weight: 700;
 }
@@ -166,7 +235,7 @@ input[type="tel"]::placeholder,
 input[type="email"]::placeholder,
 input[type="date"]::placeholder,
 textarea::placeholder {
-  color: #9CA3AF;
+  color: #6B7280;
 }
 
 input[type="text"]:focus,
@@ -198,6 +267,62 @@ textarea {
 }
 
 /* ============================================
+   Fieldset / Legend / Details
+   ============================================ */
+
+.radio-fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.radio-fieldset legend {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.info-details {
+  margin-bottom: 10px;
+}
+
+.info-details summary {
+  font-size: 13px;
+  color: #2563EB;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.info-details summary:hover {
+  text-decoration: underline;
+}
+
+.info-box {
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: #F0F7FF;
+  border-left: 3px solid #2563EB;
+  border-radius: 0 4px 4px 0;
+  font-size: 13px;
+  color: #374151;
+}
+
+.info-box ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.info-box li {
+  margin-bottom: 4px;
+}
+
+.info-box li:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================
    Upload Area
    ============================================ */
 
@@ -215,6 +340,12 @@ textarea {
 .upload-area.dragover {
   border-color: #2563EB;
   background: rgba(37, 99, 235, 0.02);
+}
+
+.upload-area:focus-visible {
+  border-color: #2563EB;
+  outline: 2px solid #2563EB;
+  outline-offset: 2px;
 }
 
 .upload-area svg {
@@ -251,6 +382,37 @@ textarea {
   background: #1D4ED8;
 }
 
+.browse-btn:focus-visible {
+  outline: 2px solid #2563EB;
+  outline-offset: 2px;
+}
+
+.upload-hint {
+  font-size: 12px;
+  color: #6B7280;
+  margin-top: 6px;
+}
+
+.photo-note {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: #FFF8F0;
+  border: 1px solid #F6AD55;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #744210;
+}
+
+#upload-error {
+  color: #EF4444;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* ============================================
+   File List & Thumbnails
+   ============================================ */
+
 .file-list {
   margin-top: 12px;
   display: flex;
@@ -261,13 +423,19 @@ textarea {
 .file-item {
   position: relative;
   width: 100px;
-  height: 100px;
   border-radius: 6px;
-  overflow: hidden;
   border: 1px solid #E5E7EB;
 }
 
-.file-item img {
+.file-thumbnail {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 5px 5px 0 0;
+}
+
+.file-thumbnail img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -290,21 +458,26 @@ textarea {
   justify-content: center;
   line-height: 1;
   transition: background 0.2s;
+  z-index: 1;
 }
 
 .file-item .remove-btn:hover {
   background: rgba(0, 0, 0, 0.85);
 }
 
+.file-item .remove-btn:focus-visible {
+  outline: 2px solid #2563EB;
+  outline-offset: 2px;
+}
+
 .file-info {
   font-size: 11px;
   color: #6B7280;
   text-align: center;
-  margin-top: 4px;
+  padding: 4px 2px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 100px;
 }
 
 /* ============================================
@@ -318,19 +491,12 @@ textarea {
 .guidelines p {
   font-size: 13px;
   color: #6B7280;
-  margin-bottom: 2px;
+  margin-bottom: 6px;
 }
 
 /* ============================================
    Radio Groups
    ============================================ */
-
-.description-text {
-  font-size: 13px;
-  color: #6B7280;
-  font-style: italic;
-  margin-bottom: 10px;
-}
 
 .radio-group {
   display: flex;
@@ -354,8 +520,15 @@ textarea {
 }
 
 /* ============================================
-   Submit Button
+   Submit Area
    ============================================ */
+
+#submit-error {
+  color: #EF4444;
+  font-size: 13px;
+  margin-bottom: 8px;
+  text-align: center;
+}
 
 .submit-btn {
   display: block;
@@ -372,7 +545,7 @@ textarea {
   letter-spacing: 1px;
   transition: background 0.2s;
   font-family: inherit;
-  margin-top: 10px;
+  margin-top: 24px;
 }
 
 .submit-btn:hover {
@@ -381,6 +554,36 @@ textarea {
 
 .submit-btn:active {
   background: #1E40AF;
+}
+
+.submit-btn:focus-visible {
+  outline: 2px solid #2563EB;
+  outline-offset: 2px;
+}
+
+.submit-btn:disabled {
+  background: #93B4F5;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   Spinner
+   ============================================ */
+
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 /* ============================================
@@ -413,6 +616,13 @@ textarea.error:focus {
 .success-message {
   text-align: center;
   padding: 40px 20px;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.success-message.visible {
+  opacity: 1;
 }
 
 .success-message svg {
@@ -428,6 +638,28 @@ textarea.error:focus {
 .success-message p {
   color: #6B7280;
   font-size: 15px;
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+
+.site-footer {
+  text-align: center;
+  padding: 24px 20px;
+  margin-top: 20px;
+  font-size: 13px;
+  color: #6B7280;
+}
+
+.site-footer strong {
+  color: #374151;
+}
+
+.copyright {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #9CA3AF;
 }
 
 /* ============================================
@@ -448,11 +680,26 @@ textarea.error:focus {
     font-size: 18px;
   }
 
-  .logo-kr {
-    font-size: 22px;
-  }
-
   .logo-en {
     font-size: 13px;
+  }
+
+  .progress-bar {
+    gap: 2px;
+  }
+
+  .step-label {
+    font-size: 10px;
+  }
+
+  .step-number {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .progress-connector {
+    margin: 0 4px;
+    margin-top: 13px;
   }
 }
