@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moving Company Quotation Form</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="js/form.js" defer></script>
+</head>
+<body>
+  <div class="form-container">
+    <div class="form-card">
+
+      <div class="form-header">
+        <div class="logo">
+          <span class="logo-kr">강 &amp; 크리엘</span>
+          <span class="logo-en">KANG &amp; KRIEL</span>
+        </div>
+        <h1>Moving Company Quotation Form</h1>
+        <p class="subtitle">To receive a quotation, please provide the following details at least 7 days before your moving date.</p>
+      </div>
+
+      <form id="quotation-form">
+
+        <!-- Section 1: Personal Information -->
+        <div class="form-section">
+          <h2>Personal Information</h2>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="first-name">First Name <span class="required">*</span></label>
+              <input type="text" id="first-name" name="first-name" required placeholder="First Name" />
+            </div>
+            <div class="form-group">
+              <label for="last-name">Last Name <span class="required">*</span></label>
+              <input type="text" id="last-name" name="last-name" required placeholder="Last Name" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number <span class="required">*</span></label>
+            <input type="tel" id="phone" name="phone" placeholder="(000) 000-0000" />
+          </div>
+
+          <div class="form-group">
+            <label>Photo Upload</label>
+            <div class="upload-area" id="upload-area">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M32 32L24 24L16 32" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M24 24V40" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M40.7 36.7A10 10 0 0 0 34 18h-2.5A16 16 0 1 0 8 32.2" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <p>Drag and drop files here</p>
+              <span>or</span>
+              <button type="button" class="browse-btn">Browse Files</button>
+              <input type="file" id="file-input" multiple accept="image/*" hidden />
+            </div>
+            <div class="file-list" id="file-list"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="items-list">List of Items to be Moved</label>
+            <textarea id="items-list" name="items-list" rows="5" placeholder="Please list all items..."></textarea>
+            <div class="guidelines">
+              <p>• Please list all items to be moved (e.g., sofa, fridge, boxes x10)</p>
+              <p>• Include approximate dimensions for large items</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Address Information -->
+        <div class="form-section">
+          <h2>Address Information</h2>
+
+          <div class="form-group">
+            <label for="current-address">Current Address <span class="required">*</span></label>
+            <input type="text" id="current-address" name="current-address" required placeholder="Enter your current address" />
+          </div>
+
+          <div class="form-group">
+            <label for="current-elevator">Elevator in Current Building <span class="required">*</span></label>
+            <select id="current-elevator" name="current-elevator">
+              <option value="">Please Select</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="new-address">New Address <span class="required">*</span></label>
+            <input type="text" id="new-address" name="new-address" required placeholder="Enter your new address" />
+          </div>
+
+          <div class="form-group">
+            <label for="new-elevator">Elevator in New Building <span class="required">*</span></label>
+            <select id="new-elevator" name="new-elevator">
+              <option value="">Please Select</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Section 3: Moving Details -->
+        <div class="form-section">
+          <h2>Moving Details</h2>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="moving-date">Moving Date <span class="required">*</span></label>
+              <input type="date" id="moving-date" name="moving-date" required />
+            </div>
+            <div class="form-group">
+              <label for="preferred-time">Preferred Time <span class="required">*</span></label>
+              <input type="text" id="preferred-time" name="preferred-time" placeholder="HH : MM" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Travel with the Truck?</label>
+              <p class="description-text">Would you like to travel in the moving truck to the new address?</p>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" name="travel-truck" value="yes" />
+                  <span>Yes</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="travel-truck" value="no" />
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Can you help carry items?</label>
+              <p class="description-text">Are you available to assist with loading/unloading?</p>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" name="help-carry" value="yes" />
+                  <span>Yes</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="help-carry" value="no" />
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn">SUBMIT</button>
+
+      </form>
+
+      <div class="success-message" id="success-message" style="display:none;">
+        <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="36" cy="36" r="36" fill="#22C55E"/>
+          <path d="M22 36L31 45L50 27" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h2>Thank You!</h2>
+        <p>Your quotation request has been submitted successfully. We will contact you within 24 hours.</p>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
