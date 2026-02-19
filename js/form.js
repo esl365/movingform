@@ -289,14 +289,41 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
 
-      // Success
-      const quotationForm = document.getElementById('quotation-form');
-      const successMessage = document.getElementById('success-message');
+      // Success - send via EmailJS
+      const submitBtn = form.querySelector('.submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'SENDING...';
 
-      if (quotationForm) quotationForm.style.display = 'none';
-      if (successMessage) successMessage.style.display = 'block';
+      const travelTruck = document.querySelector('input[name="travel-truck"]:checked');
+      const helpCarry = document.querySelector('input[name="help-carry"]:checked');
 
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const templateParams = {
+        from_name: document.getElementById('first-name').value.trim() + ' ' + document.getElementById('last-name').value.trim(),
+        phone: document.getElementById('phone').value,
+        current_address: document.getElementById('current-address').value.trim(),
+        current_elevator: document.getElementById('current-elevator').value,
+        new_address: document.getElementById('new-address').value.trim(),
+        new_elevator: document.getElementById('new-elevator').value,
+        moving_date: document.getElementById('moving-date').value,
+        preferred_time: document.getElementById('preferred-time').value,
+        travel_truck: travelTruck ? travelTruck.value : 'Not specified',
+        help_carry: helpCarry ? helpCarry.value : 'Not specified',
+        items_list: document.getElementById('items-list').value.trim() || 'None listed'
+      };
+
+      emailjs.send('service_zu5cwsu', 'template_rlol0sd', templateParams, 'ntC0ghWITIauoKO8h')
+        .then(function() {
+          var quotationForm = document.getElementById('quotation-form');
+          var successMessage = document.getElementById('success-message');
+          if (quotationForm) quotationForm.style.display = 'none';
+          if (successMessage) successMessage.style.display = 'block';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        })
+        .catch(function(error) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'SUBMIT';
+          alert('Failed to send. Please try again.\n' + (error.text || ''));
+        });
     });
   }
 
