@@ -1,5 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+  // ─── Set minimum moving date (today + 7 days) ──────────────────────────────
+
+  var movingDateInput = document.getElementById('moving-date');
+  if (movingDateInput) {
+    var minDate = new Date();
+    minDate.setDate(minDate.getDate() + 7);
+    var yyyy = minDate.getFullYear();
+    var mm = String(minDate.getMonth() + 1).padStart(2, '0');
+    var dd = String(minDate.getDate()).padStart(2, '0');
+    movingDateInput.setAttribute('min', yyyy + '-' + mm + '-' + dd);
+  }
+
   // ─── Phone Number Input Mask (Korean format: XXX-XXXX-XXXX) ─────────────
 
   var phoneInput = document.getElementById('phone');
