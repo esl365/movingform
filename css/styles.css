@@ -669,6 +669,69 @@ textarea.error:focus {
 }
 
 /* ============================================
+   Contact Cards (KakaoTalk / WhatsApp)
+   ============================================ */
+
+.contact-cards {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  padding: 12px;
+  width: 150px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contact-kakao {
+  background: #FEE500;
+  color: #3A2929;
+}
+
+.contact-whatsapp {
+  background: #25D366;
+  color: white;
+}
+
+.contact-card-header {
+  margin-bottom: 8px;
+}
+
+.contact-label {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.contact-qr {
+  width: 126px;
+  height: 180px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: white;
+}
+
+.contact-id {
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.contact-kakao .contact-id {
+  color: #3A2929;
+}
+
+.contact-whatsapp .contact-id {
+  color: white;
+}
+
+/* ============================================
    Responsive - max-width 600px
    ============================================ */
 
