@@ -235,6 +235,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var digits = el.value.replace(/\D/g, '');
       return (digits.length >= 10 && digits.length <= 11) ? '' : 'Please enter a valid phone number (10\u201311 digits)';
     },
+    'items-list': function(el) { return el.value.trim() !== '' ? '' : 'Please list the items to be moved'; },
     'current-address': function(el) { return el.value.trim() !== '' ? '' : 'Current address is required'; },
     'new-address': function(el) { return el.value.trim() !== '' ? '' : 'New address is required'; },
     'moving-date': function(el) {
@@ -393,6 +394,11 @@ document.addEventListener('DOMContentLoaded', function() {
         return digits.length >= 10 && digits.length <= 11;
       }, 'Please enter a valid phone number (10\u201311 digits)');
 
+      // Items list
+      validate('items-list', function(el) {
+        return el.value.trim() !== '';
+      }, 'Please list the items to be moved');
+
       // Current address
       validate('current-address', function(el) {
         return el.value.trim() !== '';
@@ -492,7 +498,7 @@ document.addEventListener('DOMContentLoaded', function() {
         preferred_time: document.getElementById('preferred-time').value,
         travel_truck: travelTruck ? travelTruck.value : 'Not specified',
         help_carry: helpCarry ? helpCarry.value : 'Not specified',
-        items_list: document.getElementById('items-list').value.trim() || 'None listed'
+        items_list: document.getElementById('items-list').value.trim()
       };
 
       emailjs.send('service_zu5cwsu', 'template_rlol0sd', templateParams, 'ntC0ghWITIauoKO8h')
