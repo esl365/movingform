@@ -1,11 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-  // ─── Set minimum moving date (today + 7 days) ──────────────────────────────
+  // ─── Set minimum moving date (today) ───────────────────────────────────────
 
   var movingDateInput = document.getElementById('moving-date');
   if (movingDateInput) {
     var minDate = new Date();
-    minDate.setDate(minDate.getDate() + 7);
     var yyyy = minDate.getFullYear();
     var mm = String(minDate.getMonth() + 1).padStart(2, '0');
     var dd = String(minDate.getDate()).padStart(2, '0');
@@ -241,9 +240,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var selectedDate = new Date(el.value);
       var today = new Date();
       today.setHours(0, 0, 0, 0);
-      var minDate = new Date(today);
-      minDate.setDate(minDate.getDate() + 7);
-      if (selectedDate < minDate) return 'Moving date must be at least 7 days from today';
+      if (selectedDate < today) return 'Moving date cannot be in the past';
       return '';
     },
     'preferred-time': function(el) {
@@ -421,11 +418,9 @@ document.addEventListener('DOMContentLoaded', function() {
           var selectedDate = new Date(movingDateInput.value);
           var today = new Date();
           today.setHours(0, 0, 0, 0);
-          var minDate = new Date(today);
-          minDate.setDate(minDate.getDate() + 7);
 
-          if (selectedDate < minDate) {
-            showError(movingDateInput, 'Moving date must be at least 7 days from today');
+          if (selectedDate < today) {
+            showError(movingDateInput, 'Moving date cannot be in the past');
             hasErrors = true;
           }
         }
