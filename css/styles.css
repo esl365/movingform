@@ -127,7 +127,7 @@ body {
 
 .step-label {
   font-size: 12px;
-  color: #6B7280;
+  color: #4B5563;
   font-weight: 500;
   white-space: nowrap;
   transition: color 0.3s;
@@ -217,6 +217,7 @@ input[type="text"],
 input[type="tel"],
 input[type="email"],
 input[type="date"],
+input[type="time"],
 select,
 textarea {
   width: 100%;
@@ -234,6 +235,7 @@ input[type="text"]::placeholder,
 input[type="tel"]::placeholder,
 input[type="email"]::placeholder,
 input[type="date"]::placeholder,
+input[type="time"]::placeholder,
 textarea::placeholder {
   color: #6B7280;
 }
@@ -242,6 +244,7 @@ input[type="text"]:focus,
 input[type="tel"]:focus,
 input[type="email"]:focus,
 input[type="date"]:focus,
+input[type="time"]:focus,
 select:focus,
 textarea:focus {
   border-color: #2563EB;
@@ -451,8 +454,8 @@ textarea {
   position: absolute;
   top: 2px;
   right: 2px;
-  width: 22px;
-  height: 22px;
+  width: 28px;
+  height: 28px;
   background: rgba(0, 0, 0, 0.6);
   color: white;
   border: none;
@@ -465,6 +468,13 @@ textarea {
   line-height: 1;
   transition: background 0.2s;
   z-index: 1;
+  touch-action: manipulation;
+}
+
+.file-item .remove-btn::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
 }
 
 .file-item .remove-btn:hover {
@@ -621,13 +631,18 @@ textarea.error:focus {
 
 .success-message {
   text-align: center;
-  padding: 40px 20px;
-  display: none;
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
   opacity: 0;
   transition: opacity 0.4s ease;
 }
 
 .success-message.visible {
+  visibility: visible;
+  height: auto;
+  overflow: visible;
+  padding: 40px 20px;
   opacity: 1;
 }
 
@@ -665,7 +680,7 @@ textarea.error:focus {
 .copyright {
   margin-top: 8px;
   font-size: 12px;
-  color: #9CA3AF;
+  color: #6B7280;
 }
 
 /* ============================================
@@ -842,5 +857,76 @@ textarea.error:focus {
   .progress-connector {
     margin: 0 4px;
     margin-top: 13px;
+  }
+}
+
+/* ============================================
+   Skip Link
+   ============================================ */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  background: #1A3D7C;
+  color: white;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  z-index: 9999;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* ============================================
+   Optional Label
+   ============================================ */
+
+.optional-label {
+  font-weight: 400;
+  color: #6B7280;
+  font-size: 13px;
+}
+
+/* ============================================
+   Radio Error
+   ============================================ */
+
+.radio-error {
+  display: block;
+  margin-top: 6px;
+}
+
+/* ============================================
+   QR Lightbox Close Focus
+   ============================================ */
+
+.qr-lightbox-close:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 4px;
+  border-radius: 4px;
+  opacity: 1;
+}
+
+/* ============================================
+   Touch Action
+   ============================================ */
+
+button, .browse-btn, .submit-btn, .qr-download-btn,
+.upload-area, .contact-qr, .qr-lightbox-close, .info-details summary {
+  touch-action: manipulation;
+}
+
+/* ============================================
+   Reduced Motion
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }

@@ -5,11 +5,29 @@ document.addEventListener('DOMContentLoaded', function() {
   var movingDateInput = document.getElementById('moving-date');
   if (movingDateInput) {
     var minDate = new Date();
+    minDate.setDate(minDate.getDate() + 7);
     var yyyy = minDate.getFullYear();
     var mm = String(minDate.getMonth() + 1).padStart(2, '0');
     var dd = String(minDate.getDate()).padStart(2, '0');
     movingDateInput.setAttribute('min', yyyy + '-' + mm + '-' + dd);
   }
+
+  // ─── Form Dirty Flag & beforeunload Warning ──────────────────────────────
+
+  var formDirty = false;
+  var quotationFormEl = document.getElementById('quotation-form');
+  if (quotationFormEl) {
+    quotationFormEl.addEventListener('change', function() { formDirty = true; });
+    quotationFormEl.addEventListener('input', function() { formDirty = true; });
+  }
+
+  window.addEventListener('beforeunload', function(e) {
+    if (formDirty) {
+      e.preventDefault();
+      e.returnValue = '';
+    }
+  });
+
 
   // ─── Phone Number Input Mask (Korean format: XXX-XXXX-XXXX) ─────────────
 
@@ -38,36 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (digits.length <= 3) return digits;
     if (digits.length <= 7) return digits.slice(0, 3) + '-' + digits.slice(3);
     return digits.slice(0, 3) + '-' + digits.slice(3, 7) + '-' + digits.slice(7, 11);
-  }
-
-
-  // ─── Time Input Mask ───────────────────────────────────────────────────────
-
-  var timeInput = document.getElementById('preferred-time');
-
-  if (timeInput) {
-    timeInput.addEventListener('input', function() {
-      var digits = this.value.replace(/\D/g, '').slice(0, 4);
-      this.value = formatTime(digits);
-    });
-
-    timeInput.addEventListener('blur', function() {
-      var digits = this.value.replace(/\D/g, '');
-      if (digits.length === 0) return;
-
-      var hours = parseInt(digits.slice(0, 2), 10);
-      var minutes = digits.length >= 3 ? parseInt(digits.slice(2, 4), 10) : 0;
-
-      if (hours > 23 || minutes > 59) {
-        showError(this, 'Please enter a valid time (HH:MM)');
-      }
-    });
-  }
-
-  function formatTime(digits) {
-    if (digits.length === 0) return '';
-    if (digits.length <= 2) return digits;
-    return digits.slice(0, 2) + ' : ' + digits.slice(2, 4);
   }
 
 
@@ -213,6 +201,20 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
+  // Clear radio group errors on selection
+  document.querySelectorAll('input[name="travel-truck"]').forEach(function(radio) {
+    radio.addEventListener('change', function() {
+      var errEl = document.getElementById('travel-truck-error');
+      if (errEl) errEl.textContent = '';
+    });
+  });
+  document.querySelectorAll('input[name="help-carry"]').forEach(function(radio) {
+    radio.addEventListener('change', function() {
+      var errEl = document.getElementById('help-carry-error');
+      if (errEl) errEl.textContent = '';
+    });
+  });
+
   function clearError(input) {
     input.classList.remove('error');
     input.removeAttribute('aria-invalid');
@@ -238,19 +240,14 @@ document.addEventListener('DOMContentLoaded', function() {
     'moving-date': function(el) {
       if (el.value.trim() === '') return 'Moving date is required';
       var selectedDate = new Date(el.value);
-      var today = new Date();
-      today.setHours(0, 0, 0, 0);
-      if (selectedDate < today) return 'Moving date cannot be in the past';
+      var minAllowed = new Date();
+      minAllowed.setDate(minAllowed.getDate() + 7);
+      minAllowed.setHours(0, 0, 0, 0);
+      if (selectedDate < minAllowed) return 'Moving date must be at least 7 days from today';
       return '';
     },
     'preferred-time': function(el) {
-      if (el.value.trim() === '') return 'Preferred time is required';
-      var digits = el.value.replace(/\D/g, '');
-      if (digits.length < 4) return 'Please enter a valid time (HH:MM)';
-      var hours = parseInt(digits.slice(0, 2), 10);
-      var minutes = parseInt(digits.slice(2, 4), 10);
-      if (hours > 23 || minutes > 59) return 'Please enter a valid time (HH:MM)';
-      return '';
+      return el.value.trim() !== '' ? '' : 'Preferred time is required';
     }
   };
 
@@ -353,15 +350,22 @@ document.addEventListener('DOMContentLoaded', function() {
         el.removeAttribute('aria-invalid');
         el.removeAttribute('aria-describedby');
       });
-      form.querySelectorAll('.error-message').forEach(function(el) {
+      form.querySelectorAll('.error-message:not(.radio-error)').forEach(function(el) {
         el.remove();
       });
+
+      // Clear radio errors
+      var travelTruckErrorEl = document.getElementById('travel-truck-error');
+      var helpCarryErrorEl = document.getElementById('help-carry-error');
+      if (travelTruckErrorEl) travelTruckErrorEl.textContent = '';
+      if (helpCarryErrorEl) helpCarryErrorEl.textContent = '';
 
       // Clear submit error
       var submitErrorDiv = document.getElementById('submit-error');
       if (submitErrorDiv) submitErrorDiv.textContent = '';
 
       var hasErrors = false;
+      var errorCount = 0;
 
       function validate(id, testFn, message) {
         var input = document.getElementById(id);
@@ -369,6 +373,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!testFn(input)) {
           showError(input, message);
           hasErrors = true;
+          errorCount++;
         }
       }
 
@@ -408,20 +413,22 @@ document.addEventListener('DOMContentLoaded', function() {
         return el.value !== '';
       }, 'Please select an option');
 
-      // Moving date
+      // Moving date (7-day minimum)
       var movingDateInput = document.getElementById('moving-date');
       if (movingDateInput) {
         if (movingDateInput.value.trim() === '') {
           showError(movingDateInput, 'Moving date is required');
           hasErrors = true;
+          errorCount++;
         } else {
           var selectedDate = new Date(movingDateInput.value);
-          var today = new Date();
-          today.setHours(0, 0, 0, 0);
-
-          if (selectedDate < today) {
-            showError(movingDateInput, 'Moving date cannot be in the past');
+          var minAllowed = new Date();
+          minAllowed.setDate(minAllowed.getDate() + 7);
+          minAllowed.setHours(0, 0, 0, 0);
+          if (selectedDate < minAllowed) {
+            showError(movingDateInput, 'Moving date must be at least 7 days from today');
             hasErrors = true;
+            errorCount++;
           }
         }
       }
@@ -432,22 +439,35 @@ document.addEventListener('DOMContentLoaded', function() {
         if (preferredTimeInput.value.trim() === '') {
           showError(preferredTimeInput, 'Preferred time is required');
           hasErrors = true;
-        } else {
-          var digits = preferredTimeInput.value.replace(/\D/g, '');
-          var hours = parseInt(digits.slice(0, 2), 10);
-          var minutes = parseInt(digits.slice(2, 4), 10);
-          if (digits.length < 4 || hours > 23 || minutes > 59) {
-            showError(preferredTimeInput, 'Please enter a valid time (HH:MM)');
-            hasErrors = true;
-          }
+          errorCount++;
         }
       }
 
+      // Travel truck radio
+      var travelTruckChecked = document.querySelector('input[name="travel-truck"]:checked');
+      if (!travelTruckChecked) {
+        if (travelTruckErrorEl) travelTruckErrorEl.textContent = 'Please select an option';
+        hasErrors = true;
+        errorCount++;
+      }
+
+      // Help carry radio
+      var helpCarryChecked = document.querySelector('input[name="help-carry"]:checked');
+      if (!helpCarryChecked) {
+        if (helpCarryErrorEl) helpCarryErrorEl.textContent = 'Please select an option';
+        hasErrors = true;
+        errorCount++;
+      }
+
       if (hasErrors) {
-        var firstError = form.querySelector('.error');
+        if (submitErrorDiv) {
+          submitErrorDiv.textContent = errorCount + ' field' + (errorCount > 1 ? 's' : '') + ' need' + (errorCount === 1 ? 's' : '') + ' attention. Please review and correct before submitting.';
+        }
+        var firstError = form.querySelector('.error, .radio-error:not(:empty)');
         if (firstError) {
+          var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
           var offset = firstError.getBoundingClientRect().top + window.scrollY - 100;
-          window.scrollTo({ top: offset, behavior: 'smooth' });
+          window.scrollTo({ top: offset, behavior: reducedMotion ? 'auto' : 'smooth' });
         }
         return;
       }
@@ -455,6 +475,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Success - send via EmailJS
       var submitBtn = form.querySelector('.submit-btn');
       submitBtn.disabled = true;
+      submitBtn.setAttribute('aria-busy', 'true');
       submitBtn.innerHTML = '<span class="spinner"></span> SENDING...';
 
       var travelTruck = document.querySelector('input[name="travel-truck"]:checked');
@@ -476,6 +497,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
       emailjs.send('service_zu5cwsu', 'template_rlol0sd', templateParams, 'ntC0ghWITIauoKO8h')
         .then(function() {
+          formDirty = false;
+
           var quotationForm = document.getElementById('quotation-form');
           var successMessage = document.getElementById('success-message');
           var requiredLegend = document.querySelector('.required-legend');
@@ -486,17 +509,19 @@ document.addEventListener('DOMContentLoaded', function() {
           if (progressBarEl) progressBarEl.style.display = 'none';
 
           if (successMessage) {
-            successMessage.style.display = 'block';
             requestAnimationFrame(function() {
               requestAnimationFrame(function() {
                 successMessage.classList.add('visible');
+                successMessage.focus();
               });
             });
           }
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
         })
         .catch(function(error) {
           submitBtn.disabled = false;
+          submitBtn.removeAttribute('aria-busy');
           submitBtn.innerHTML = 'SUBMIT';
           var errDiv = document.getElementById('submit-error');
           if (errDiv) {
@@ -512,18 +537,25 @@ document.addEventListener('DOMContentLoaded', function() {
   var lightbox = document.getElementById('qr-lightbox');
   var lightboxImg = document.getElementById('qr-lightbox-img');
   var lightboxClose = document.querySelector('.qr-lightbox-close');
+  var lightboxPreviousFocus = null;
 
   if (lightbox && lightboxImg) {
     document.querySelectorAll('.contact-qr').forEach(function(img) {
       img.addEventListener('click', function() {
+        lightboxPreviousFocus = this;
         lightboxImg.src = this.src;
         lightboxImg.alt = this.alt;
         lightbox.classList.add('open');
+        if (lightboxClose) lightboxClose.focus();
       });
     });
 
     function closeLightbox() {
       lightbox.classList.remove('open');
+      if (lightboxPreviousFocus) {
+        lightboxPreviousFocus.focus();
+        lightboxPreviousFocus = null;
+      }
     }
 
     if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
@@ -531,7 +563,14 @@ document.addEventListener('DOMContentLoaded', function() {
       if (e.target === lightbox) closeLightbox();
     });
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'Escape' && lightbox.classList.contains('open')) {
+        closeLightbox();
+      }
+      // Tab trap: keep focus on close button while lightbox is open
+      if (e.key === 'Tab' && lightbox.classList.contains('open')) {
+        e.preventDefault();
+        if (lightboxClose) lightboxClose.focus();
+      }
     });
   }
 
