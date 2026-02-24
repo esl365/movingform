@@ -752,6 +752,12 @@ textarea.error:focus {
   cursor: zoom-in;
 }
 
+.qr-hint {
+  font-size: 13px;
+  color: #6B7280;
+  margin-bottom: 10px;
+}
+
 /* ============================================
    QR Lightbox
    ============================================ */
