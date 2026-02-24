@@ -323,10 +323,12 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateProgressBar(activeIndex) {
     progressSteps.forEach(function(step, i) {
       step.classList.remove('active', 'completed');
+      step.removeAttribute('aria-current');
       if (i < activeIndex) {
         step.classList.add('completed');
       } else if (i === activeIndex) {
         step.classList.add('active');
+        step.setAttribute('aria-current', 'step');
       }
     });
     progressConnectors.forEach(function(connector, i) {

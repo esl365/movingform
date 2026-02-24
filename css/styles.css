@@ -2,6 +2,21 @@
    Moving Company Quotation Form - styles.css
    ============================================ */
 
+/* ============================================
+   Design Tokens
+   ============================================ */
+
+:root {
+  --color-primary: #2563EB;
+  --color-primary-dark: #1D4ED8;
+  --color-navy: #1A3D7C;
+  --color-border: #D1D5DB;
+  --color-bg-subtle: #F9FAFB;
+  --color-text-body: #374151;
+  --color-text-muted: #6B7280;
+  --color-error: #EF4444;
+}
+
 /* Reset & Base */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -113,7 +128,7 @@ body {
   height: 32px;
   border-radius: 50%;
   background: #E5E7EB;
-  color: #6B7280;
+  color: #374151;
   font-size: 14px;
   font-weight: 600;
   transition: background 0.3s, color 0.3s;
@@ -248,8 +263,19 @@ input[type="time"]:focus,
 select:focus,
 textarea:focus {
   border-color: #2563EB;
-  outline: none;
+  outline: 2px solid #2563EB;
+  outline-offset: 2px;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+input[type="text"]:focus:not(:focus-visible),
+input[type="tel"]:focus:not(:focus-visible),
+input[type="email"]:focus:not(:focus-visible),
+input[type="date"]:focus:not(:focus-visible),
+input[type="time"]:focus:not(:focus-visible),
+select:focus:not(:focus-visible),
+textarea:focus:not(:focus-visible) {
+  outline: none;
 }
 
 select {
@@ -264,6 +290,8 @@ select {
   cursor: pointer;
 }
 
+select:hover { border-color: #9CA3AF; }
+
 textarea {
   min-height: 120px;
   resize: vertical;
@@ -274,9 +302,11 @@ textarea {
    ============================================ */
 
 .radio-fieldset {
-  border: none;
-  padding: 0;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 12px;
   margin: 0;
+  background: #F9FAFB;
 }
 
 .radio-fieldset legend {
@@ -296,6 +326,8 @@ textarea {
   color: #2563EB;
   cursor: pointer;
   font-weight: 500;
+  padding: 6px 0;
+  display: inline-block;
 }
 
 .info-details summary:hover {
@@ -526,7 +558,12 @@ textarea {
   cursor: pointer;
   font-size: 14px;
   color: #374151;
+  padding: 8px 10px;
+  border-radius: 6px;
+  transition: background 0.15s;
 }
+
+.radio-label:hover { background: #EEF2FF; }
 
 .radio-label input[type="radio"] {
   accent-color: #2563EB;
@@ -661,6 +698,12 @@ textarea.error:focus {
   font-size: 15px;
 }
 
+.success-contact-hint {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #6B7280;
+}
+
 /* ============================================
    Footer
    ============================================ */
@@ -749,7 +792,7 @@ textarea.error:focus {
 .qr-download-btn {
   display: inline-block;
   margin-top: 8px;
-  padding: 5px 12px;
+  padding: 8px 14px;
   background: rgba(0, 0, 0, 0.15);
   color: inherit;
   border-radius: 4px;
@@ -761,6 +804,11 @@ textarea.error:focus {
 
 .qr-download-btn:hover {
   background: rgba(0, 0, 0, 0.28);
+}
+
+.qr-download-btn:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
 
 .contact-qr {
@@ -858,6 +906,10 @@ textarea.error:focus {
     margin: 0 4px;
     margin-top: 13px;
   }
+
+  .radio-fieldset { width: 100%; }
+
+  textarea { resize: none; max-height: 180px; }
 }
 
 /* ============================================
@@ -879,16 +931,6 @@ textarea.error:focus {
 
 .skip-link:focus {
   top: 0;
-}
-
-/* ============================================
-   Optional Label
-   ============================================ */
-
-.optional-label {
-  font-weight: 400;
-  color: #6B7280;
-  font-size: 13px;
 }
 
 /* ============================================
