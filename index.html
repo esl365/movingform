@@ -228,7 +228,7 @@
           <div class="contact-card-header">
             <span class="contact-label">KakaoTalk</span>
           </div>
-          <img src="KakaoTalk.png" alt="KakaoTalk QR Code" class="contact-qr" />
+          <img src="KakaoTalk.png" alt="KakaoTalk QR Code" class="contact-qr" title="Click to enlarge" />
           <p class="contact-id">ID: <strong>babytalk15</strong></p>
           <a href="KakaoTalk.png" download="KakaoTalk_QR.png" class="qr-download-btn">Download QR</a>
         </div>
@@ -236,10 +236,16 @@
           <div class="contact-card-header">
             <span class="contact-label">WhatsApp</span>
           </div>
-          <img src="Whatsapp.png" alt="WhatsApp QR Code" class="contact-qr" />
+          <img src="Whatsapp.png" alt="WhatsApp QR Code" class="contact-qr" title="Click to enlarge" />
           <p class="contact-id">Chanhyung Kang</p>
           <a href="Whatsapp.png" download="WhatsApp_QR.png" class="qr-download-btn">Download QR</a>
         </div>
+      </div>
+
+      <!-- QR Lightbox -->
+      <div id="qr-lightbox" class="qr-lightbox" role="dialog" aria-modal="true" aria-label="QR Code enlarged view">
+        <button class="qr-lightbox-close" aria-label="Close">&times;</button>
+        <img id="qr-lightbox-img" src="" alt="QR Code enlarged" />
       </div>
       <p class="copyright">&copy; 2025 KANG &amp; KRIEL. All rights reserved.</p>
     </footer>

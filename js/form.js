@@ -507,6 +507,34 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
 
+  // ─── QR Code Lightbox ──────────────────────────────────────────────────────
+
+  var lightbox = document.getElementById('qr-lightbox');
+  var lightboxImg = document.getElementById('qr-lightbox-img');
+  var lightboxClose = document.querySelector('.qr-lightbox-close');
+
+  if (lightbox && lightboxImg) {
+    document.querySelectorAll('.contact-qr').forEach(function(img) {
+      img.addEventListener('click', function() {
+        lightboxImg.src = this.src;
+        lightboxImg.alt = this.alt;
+        lightbox.classList.add('open');
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+    }
+
+    if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', function(e) {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  }
+
   // ─── Show Error Helper ─────────────────────────────────────────────────────
 
   function showError(input, message) {
